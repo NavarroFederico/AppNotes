@@ -1,10 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.appnotes.ui.note_list.NoteListFragment">
-
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linearLayout_topBar"
@@ -30,6 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:src="@drawable/ic_list" />
@@ -43,6 +43,7 @@
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:src="@drawable/ic_dark_mode" />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -55,7 +56,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout_topBar"
-        tools:listitem="@layout/layout_note_item" />
+        tools:listitem="@layout/layout_note_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_newNota"
@@ -63,13 +64,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/secondary_color"
-        android:clickable="true"
-        android:src="@drawable/ic_add"
-        android:tintMode="@color/on_secondary_color"
-        app:backgroundTint="@color/secondary_color"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/secondary_color"
+        android:tintMode="@color/on_secondary_color"
+        android:backgroundTint="@color/secondary_color"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
