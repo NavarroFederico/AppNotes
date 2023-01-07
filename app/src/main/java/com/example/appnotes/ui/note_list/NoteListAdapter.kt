@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appnotes.domain.model.Note
+import com.example.apppositive.R
 import com.example.apppositive.databinding.LayoutNoteItemBinding
 
 class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDiffUtil) {
@@ -36,11 +37,15 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
         private val title = itemBinding.textViewNoteTitle
         private val content = itemBinding.textViewNoteContent
         private val backgroundColor = container.background as GradientDrawable
-
+        private val strokeColor = container.background as GradientDrawable
 
         fun bind(note: Note) {
             backgroundColor.color = ColorStateList.valueOf(ContextCompat.getColor(itemView.context, note.color))
-
+            if( note.color == R.color.app_bg_color){
+                strokeColor.setStroke(2,ContextCompat.getColor(itemView.context,R.color.on_secondary_color))
+            }else{
+                strokeColor.setStroke(2,ContextCompat.getColor(itemView.context,note.color))
+            }
             if(note.title.isNotEmpty()){
                 title.isVisible = true
                 title.text = note.title
