@@ -1,7 +1,11 @@
 package com.example.appnotes.ui.note_list
 
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -28,7 +32,25 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
     inner class NoteViewHolder(itemBinding: LayoutNoteItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
+        private val container = itemBinding.noteContainer
+        private val title = itemBinding.textViewNoteTitle
+        private val content = itemBinding.textViewNoteContent
+        private val backgroundColor = container.background as GradientDrawable
 
+
+        fun bind(note: Note) {
+            backgroundColor.color = ColorStateList.valueOf(ContextCompat.getColor(itemView.context, note.color))
+
+            if(note.title.isNotEmpty()){
+                title.isVisible = true
+                title.text = note.title
+            }
+
+            if(note.content.isNotEmpty()){
+                content.isVisible = true
+                content.text = note.content
+            }
+        }
 
     }
 
