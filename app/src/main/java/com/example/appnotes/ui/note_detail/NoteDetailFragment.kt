@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.apppositive.R
 import com.example.apppositive.databinding.FragmentNoteDetailBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class NoteDetailFragment : Fragment() {
     private var _binding: FragmentNoteDetailBinding? = null
     private val binding get() = _binding!!
