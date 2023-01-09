@@ -15,6 +15,12 @@ import com.example.apppositive.R
 import com.example.apppositive.databinding.LayoutNoteItemBinding
 
 class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDiffUtil) {
+
+    private var onItemClickListener: ((String)-> Unit)? = null
+
+    fun setOnItemClicklistener(listener: (String)-> Unit){
+        onItemClickListener =listener
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
             LayoutNoteItemBinding.inflate(
@@ -39,7 +45,20 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
         private val backgroundColor = container.background as GradientDrawable
         private val strokeColor = container.background as GradientDrawable
 
+        private var currentNote :Note? = null
+        init{
+            itemView.setOnClickListener {
+                currentNote?.let { note ->
+                    onItemClickListener?.let {
+                        it(note.id)
+                    }
+                }
+            }
+        }
+
         fun bind(note: Note) {
+            currentNote = note
+
             backgroundColor.color = ColorStateList.valueOf(ContextCompat.getColor(itemView.context, note.color))
             if( note.color == R.color.app_bg_color){
                 strokeColor.setStroke(2,ContextCompat.getColor(itemView.context,R.color.on_secondary_color))
