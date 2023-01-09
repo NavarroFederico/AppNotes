@@ -16,17 +16,16 @@ import com.example.apppositive.databinding.LayoutNoteItemBinding
 
 class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDiffUtil) {
 
-    private var onItemClickListener: ((String)-> Unit)? = null
+    private var onItemClickListener: ((String) -> Unit)? = null
 
-    fun setOnItemClicklistener(listener: (String)-> Unit){
-        onItemClickListener =listener
+    fun setOnItemClicklistener(listener: (String) -> Unit) {
+        onItemClickListener = listener
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
             LayoutNoteItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
     }
@@ -45,8 +44,9 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
         private val backgroundColor = container.background as GradientDrawable
         private val strokeColor = container.background as GradientDrawable
 
-        private var currentNote :Note? = null
-        init{
+        private var currentNote: Note? = null
+
+        init {
             itemView.setOnClickListener {
                 currentNote?.let { note ->
                     onItemClickListener?.let {
@@ -59,18 +59,21 @@ class NoteListAdapter : ListAdapter<Note, NoteListAdapter.NoteViewHolder>(NoteDi
         fun bind(note: Note) {
             currentNote = note
 
-            backgroundColor.color = ColorStateList.valueOf(ContextCompat.getColor(itemView.context, note.color))
-            if( note.color == R.color.app_bg_color){
-                strokeColor.setStroke(2,ContextCompat.getColor(itemView.context,R.color.on_secondary_color))
-            }else{
-                strokeColor.setStroke(2,ContextCompat.getColor(itemView.context,note.color))
+            backgroundColor.color =
+                ColorStateList.valueOf(ContextCompat.getColor(itemView.context, note.color))
+            if (note.color == R.color.app_bg_color) {
+                strokeColor.setStroke(
+                    2, ContextCompat.getColor(itemView.context, R.color.on_secondary_color)
+                )
+            } else {
+                strokeColor.setStroke(2, ContextCompat.getColor(itemView.context, note.color))
             }
-            if(note.title.isNotEmpty()){
+            if (note.title.isNotEmpty()) {
                 title.isVisible = true
                 title.text = note.title
             }
 
-            if(note.content.isNotEmpty()){
+            if (note.content.isNotEmpty()) {
                 content.isVisible = true
                 content.text = note.content
             }

@@ -21,9 +21,7 @@ class NoteListFragment : Fragment() {
     lateinit var noteListAdapter: NoteListAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNoteListBinding.inflate(inflater, container, false)
 
@@ -35,7 +33,7 @@ class NoteListFragment : Fragment() {
 
         binding.recyclerViewNotes.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter =noteListAdapter
+            adapter = noteListAdapter
         }
         binding.fabNewNota.setOnClickListener {
             val action = NoteListFragmentDirections.actionNoteListFragmentToNoteDetailFragment()
