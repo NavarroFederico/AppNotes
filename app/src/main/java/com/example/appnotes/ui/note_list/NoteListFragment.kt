@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.apppositive.R
 import com.example.apppositive.databinding.FragmentNoteListBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -19,6 +22,8 @@ class NoteListFragment : Fragment() {
 
     @Inject
     lateinit var noteListAdapter: NoteListAdapter
+
+    private val viewModel: NoteListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,6 +43,12 @@ class NoteListFragment : Fragment() {
         binding.fabNewNota.setOnClickListener {
             val action = NoteListFragmentDirections.actionNoteListFragmentToNoteDetailFragment()
             findNavController().navigate(action)
+
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.noteList.collect(){
+                noteList->noteListAdapter.submitList(noteList)
+            }
         }
     }
 

@@ -10,6 +10,4 @@ data class Note(
     val color: Int = R.color.app_bg_color,
     val created: Long = System.currentTimeMillis(),
     val updated: Long = System.currentTimeMillis()
-) {
-
-}
+)
