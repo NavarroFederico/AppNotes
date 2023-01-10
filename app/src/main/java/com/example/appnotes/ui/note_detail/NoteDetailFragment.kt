@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.appnotes.ui.utils.showKeyboard
 import com.example.apppositive.R
 import com.example.apppositive.databinding.FragmentNoteDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,10 +27,7 @@ class NoteDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        /*  binding.buttonJugar.setOnClickListener {
-              findNavController().navigate(R.id.infoDialog)
-          }*/
+        binding.editTextNoteContent.showKeyboard()
     }
 
     override fun onDestroyView() {
