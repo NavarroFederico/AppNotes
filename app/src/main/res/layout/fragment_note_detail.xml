@@ -39,45 +39,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView_arrowBack">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/editText_noteTitle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="@string/edit_text_note_title"
-            android:inputType="text|textMultiLine|textCapSentences"
-            android:text="@color/note_title_color"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <EditText
+                android:id="@+id/editText_noteTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/edit_text_note_title"
+                android:inputType="text|textMultiLine|textCapSentences"
+                android:text="@color/note_title_color"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editText_noteContent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@null"
-            android:gravity="top"
-            android:hint="@string/edit_text_note_content"
-            android:inputType="text|textMultiLine|textCapSentences"
-            android:text="@color/note_content_color"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            <EditText
+                android:id="@+id/editText_noteContent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@null"
+                android:gravity="top"
+                android:hint="@string/edit_text_note_content"
+                android:inputType="text|textMultiLine|textCapSentences"
+                android:text="@color/note_content_color"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editText_noteTitle" />
 
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editText_noteTitle" />
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
     <LinearLayout
@@ -85,15 +83,16 @@
         android:id="@+id/linearLayout_bottomTools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/secondary_color"
         android:orientation="horizontal"
         android:weightSum="7"
+        android:background="@color/secondary_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
+            android:id="@+id/imageView_noteColor"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
@@ -102,6 +101,7 @@
             app:tint="@color/on_secondary_color" />
 
         <TextView
+            android:id="@+id/textView_noteModified"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="5"

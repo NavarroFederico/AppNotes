@@ -5,35 +5,44 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.apppositive.R
 import com.example.apppositive.databinding.FragmentBottomSheetColorSelectorBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class BottomSheetColorSelectorFragment : BottomSheetDialogFragment() {
-       private var _binding: FragmentBottomSheetColorSelectorBinding? = null
-           private val binding get() = _binding!!
+    private var _binding: FragmentBottomSheetColorSelectorBinding? = null
+    private val binding get() = _binding!!
 
-           override fun onCreateView(
-               inflater: LayoutInflater,
-               container: ViewGroup?,
-               savedInstanceState: Bundle?
-           ): View {
-               _binding = FragmentBottomSheetColorSelectorBinding.inflate(inflater, container, false)
+    @Inject
+    lateinit var colorSelectorAdapter: ColorSelectorAdapter
 
-               return binding.root
-           }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentBottomSheetColorSelectorBinding.inflate(inflater, container, false)
 
-           override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-               super.onViewCreated(view, savedInstanceState)
+        return binding.root
+    }
 
-             /*  binding.buttonJugar.setOnClickListener {
-                   findNavController().navigate(R.id.infoDialog)
-               }*/
-           }
-           override fun onDestroyView() {
-               super.onDestroyView()
-               _binding = null
-           }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerViewColor.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = colorSelectorAdapter
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 }
