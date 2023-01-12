@@ -6,26 +6,29 @@
     app:startDestination="@id/noteListFragment">
 
     <fragment
-        android:id="@+id/noteDetailFragment"
-        android:name="com.example.appnotes.ui.note_detail.NoteDetailFragment"
-        android:label="fragment_note_detail"
-        tools:layout="@layout/fragment_note_detail" >
-        <action
-            android:id="@+id/action_noteDetailFragment_to_bottomSheetColorSelectorFragment"
-            app:destination="@id/bottomSheetColorSelectorFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/noteListFragment"
         android:name="com.example.appnotes.ui.note_list.NoteListFragment"
         android:label="fragment_note_list"
         tools:layout="@layout/fragment_note_list" >
         <action
             android:id="@+id/action_noteListFragment_to_noteDetailFragment"
-            app:destination="@id/noteDetailFragment" />
+            app:destination="@+id/note_detail_graph" />
     </fragment>
-    <fragment
-        android:id="@+id/bottomSheetColorSelectorFragment"
-        android:name="com.example.appnotes.ui.note_detail.BottomSheetColorSelectorFragment"
-        android:label="fragment_bottom_sheet_color_selector"
-        tools:layout="@layout/fragment_bottom_sheet_color_selector" />
+    <navigation android:id="@+id/note_detail_graph"
+        app:startDestination="@id/noteDetailFragment">
+        <fragment
+            android:id="@+id/noteDetailFragment"
+            android:name="com.example.appnotes.ui.note_detail.NoteDetailFragment"
+            android:label="fragment_note_detail"
+            tools:layout="@layout/fragment_note_detail">
+            <action
+                android:id="@+id/action_noteDetailFragment_to_bottomSheetColorSelectorFragment"
+                app:destination="@id/bottomSheetColorSelectorFragment" />
+        </fragment>
+        <dialog
+            android:id="@+id/bottomSheetColorSelectorFragment"
+            android:name="com.example.appnotes.ui.note_detail.BottomSheetColorSelectorFragment"
+            android:label="fragment_bottom_sheet_color_selector"
+            tools:layout="@layout/fragment_bottom_sheet_color_selector" />
+    </navigation>
 </navigation>
