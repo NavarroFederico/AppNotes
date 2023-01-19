@@ -9,7 +9,8 @@ import com.example.appnotes.data.cache.note.NoteEntity
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getNoteDao(): NoteDao
 
-    companion object{
-        val DATABASE_NAME = "notes_db"
+
+    companion object {
+        val DATABASE_NAME = "note_db"
     }
 }

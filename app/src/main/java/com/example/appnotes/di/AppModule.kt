@@ -3,6 +3,7 @@ package com.example.appnotes.di
 import android.app.Application
 import androidx.room.Room
 import com.example.appnotes.data.cache.AppDatabase
+import com.example.appnotes.data.cache.AppDatabase.Companion.DATABASE_NAME
 import com.example.appnotes.data.cache.note.NoteDao
 import com.example.appnotes.data.repositories.NoteRepository
 import com.example.appnotes.ui.note_detail.ColorSelectorAdapter
@@ -21,7 +22,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideAppDataBase(app: Application): AppDatabase {
-        return Room.databaseBuilder(app, AppDatabase::class.java, "note_db")
+        return Room.databaseBuilder(app, AppDatabase::class.java, DATABASE_NAME)
             .fallbackToDestructiveMigration().build()
 
     }
