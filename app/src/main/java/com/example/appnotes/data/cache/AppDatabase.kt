@@ -6,10 +6,10 @@ import com.example.appnotes.data.cache.note.NoteDao
 import com.example.appnotes.data.cache.note.NoteEntity
 
 @Database(entities = [NoteEntity::class],version = 1)
-abstract class AppDataBase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
     abstract fun getNoteDao(): NoteDao
 
-//    companion object{
-//        val DATABASE_NAME = "notes_db"
-//    }
+    companion object{
+        val DATABASE_NAME = "notes_db"
+    }
 }
