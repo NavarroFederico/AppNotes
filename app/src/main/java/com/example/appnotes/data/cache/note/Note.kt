@@ -1,4 +1,4 @@
-package com.example.appnotes.data.cache
+package com.example.appnotes.data.cache.note
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
