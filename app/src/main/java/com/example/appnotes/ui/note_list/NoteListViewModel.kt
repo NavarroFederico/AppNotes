@@ -25,7 +25,7 @@ constructor(
     }
 
     fun getNotes() {
-        noteRepository.getnotes().onEach { noteList ->
+        noteRepository.getNotesPorDefecto().onEach { noteList ->
             _noteList.value = noteList
         }.launchIn(viewModelScope)
     }
