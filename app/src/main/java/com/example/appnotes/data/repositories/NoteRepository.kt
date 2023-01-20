@@ -19,7 +19,7 @@ class NoteRepository(private val noteDao: NoteDao) {
         e.printStackTrace()
     }
 
-    suspend fun insertNote(note: Note): Flow<Boolean> = flow {
+    fun insertNote(note: Note): Flow<Boolean> = flow {
         noteDao.insertNote(note.toNoteEntity())
         emit(true)
     }.catch { e ->

@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcherOwner
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -39,7 +41,19 @@ class NoteDetailFragment : Fragment() {
             val action= NoteDetailFragmentDirections.actionNoteDetailFragmentToBottomSheetColorSelectorFragment()
             findNavController().navigate(action)
         }
+        binding.imageViewArrowBack.setOnClickListener {
+            saveNote()
+        }
+        //Funcion si hace el gesto hacia atras se guarde la nota
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object :OnBackPressedCallback(true){
+                override fun handleOnBackPressed() {
+                    saveNote()
+                }
 
+            }
+        )
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.selectedColor.collect{ selectedColor ->
                 binding.noteContainer.setBackgroundColor(
@@ -50,6 +64,13 @@ class NoteDetailFragment : Fragment() {
                 )
             }
         }
+        //detecta si la nota es modificada navega hacia atras
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.noteHasBeenModified.collect{ noteHasBeenModified->
+                if (noteHasBeenModified){
+                    findNavController().popBackStack()
+                }
+        } }
     }
 
     override fun onDestroyView() {
@@ -57,4 +78,10 @@ class NoteDetailFragment : Fragment() {
         _binding = null
     }
 
+    fun saveNote(){
+        viewModel.savedNoteChanges(
+            title = binding.editTextNoteTitle.text.toString()   ,
+            content = binding.editTextNoteContent.text.toString()
+        )
+    }
 }
