@@ -48,7 +48,7 @@ private val noteRepository: NoteRepository
     private fun saveNewNote(title: String, content: String) {
 
         if(title.isEmpty() && content.isEmpty()){
-            noteHasBeenModified.value == false
+            _noteHasBeenModified.value = true
             return
 
         }

@@ -20,12 +20,20 @@ constructor(
     private var _noteList = MutableStateFlow<List<Note>>(emptyList())
     val noteList: StateFlow<List<Note>> = _noteList
 
+    private var _searchQuery = MutableStateFlow("")
     init {
-        getNotes()
+     //   getNotesCache()
+      getNotesDb()
+
     }
 
-    fun getNotes() {
+    /*fun getNotesCache() {
         noteRepository.getNotesPorDefecto().onEach { noteList ->
+            _noteList.value = noteList
+        }.launchIn(viewModelScope)
+    }*/
+    fun getNotesDb(){
+        noteRepository.getNotesDB(_searchQuery.value).onEach { noteList ->
             _noteList.value = noteList
         }.launchIn(viewModelScope)
     }
