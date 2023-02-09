@@ -53,11 +53,15 @@ class NoteListFragment : Fragment() {
                 noteListAdapter.submitList(noteList)
             }
         }
+        noteListAdapter.setOnItemClicklistener { noteId ->
+            val action = NoteListFragmentDirections.actionNoteListFragmentToNoteDetailFragment(noteId)
+            findNavController().navigate(action)
+        }
     }
     override fun onResume() {
         super.onResume()
         requireActivity().window.changeStatusBarColor(R.color.app_bg_color)
-        viewModel.getNotesDb()
+        viewModel.getNotes()
       //  viewModel.getNotesCache()
 
     }

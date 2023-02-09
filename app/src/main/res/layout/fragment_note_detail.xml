@@ -19,6 +19,7 @@
         app:tint="@color/on_secondary_color" />
 
     <ImageView
+        android:id="@+id/imageView_deleteNote"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="16dp"

@@ -1,5 +1,6 @@
 package com.example.appnotes.ui.note_detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.appnotes.data.repositories.NoteRepository
@@ -16,7 +17,8 @@ import javax.inject.Inject
 class NoteDetailViewModel
 @Inject
 constructor(
-private val noteRepository: NoteRepository
+private val noteRepository: NoteRepository,
+savedStateHandle: SavedStateHandle
 ) : ViewModel()
 {
 
@@ -28,6 +30,20 @@ private val noteRepository: NoteRepository
 
     private var _noteHasBeenModified = MutableStateFlow(false)
     val noteHasBeenModified = _noteHasBeenModified as StateFlow<Boolean>
+
+    init {
+        //let(::getNoteById) si el bloque contiene una sola funcion en su argumento puedo usar la referencia (::) en lugar de la lambda.
+        savedStateHandle.get<String>("noteId")?.let(::getNoteById)
+        //?.let{ noteId->
+        //getNoteById(noteId)
+        //}
+    }
+
+    private fun getNoteById(noteId: String) {
+        noteRepository.getNoteById(noteId).onEach { note ->
+            _note.value = note
+        }.launchIn(viewModelScope)
+    }
 
     fun updateNoteColor(newSelectedColor: Int){
         _selectedColor.value = newSelectedColor

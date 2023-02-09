@@ -16,6 +16,11 @@
     </fragment>
     <navigation android:id="@+id/note_detail_graph"
         app:startDestination="@id/noteDetailFragment">
+        <argument
+            android:name="noteId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <fragment
             android:id="@+id/noteDetailFragment"
             android:name="com.example.appnotes.ui.note_detail.NoteDetailFragment"
@@ -24,6 +29,11 @@
             <action
                 android:id="@+id/action_noteDetailFragment_to_bottomSheetColorSelectorFragment"
                 app:destination="@id/bottomSheetColorSelectorFragment" />
+            <argument
+                android:name="noteId"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null" />
         </fragment>
         <dialog
             android:id="@+id/bottomSheetColorSelectorFragment"

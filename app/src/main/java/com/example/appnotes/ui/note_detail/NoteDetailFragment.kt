@@ -1,14 +1,14 @@
 package com.example.appnotes.ui.note_detail
 
-import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcherOwner
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -16,6 +16,8 @@ import com.example.appnotes.ui.utils.showKeyboard
 import com.example.apppositive.R
 import com.example.apppositive.databinding.FragmentNoteDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class NoteDetailFragment : Fragment() {
@@ -71,6 +73,30 @@ class NoteDetailFragment : Fragment() {
                     findNavController().popBackStack()
                 }
         } }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.note.collect{
+                it?.let{
+                    note->
+                    binding.editTextNoteTitle.setText(note.title)
+                    binding.editTextNoteContent.append( "${note.content} ")
+                    viewModel.updateNoteColor(note.color)
+                    binding.imageViewDeleteNote.isVisible = true
+
+                    val updatedAt = Date(note.updated)
+
+                    val dateFormat: SimpleDateFormat = if(DateUtils.isToday(updatedAt.time)){
+                        SimpleDateFormat("hh:mm a", Locale.ROOT)
+
+                    }else{
+                        SimpleDateFormat("dd/MM/y ", Locale.ROOT)
+
+                    }
+                    binding.textViewNoteModified.text = "Editado ${dateFormat.format(updatedAt)}"
+                }
+            }
+
+        }
     }
 
     override fun onDestroyView() {
