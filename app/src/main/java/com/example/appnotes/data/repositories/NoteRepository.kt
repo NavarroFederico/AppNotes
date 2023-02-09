@@ -13,13 +13,13 @@ import kotlinx.coroutines.flow.flow
 
 class NoteRepository(private val noteDao: NoteDao) {
 
-   /* fun getNotesPorDefecto(): Flow<List<Note>> = flow {
-        val cacheNoteList = getNoteList()
-        emit(cacheNoteList)
+    /* fun getNotesPorDefecto(): Flow<List<Note>> = flow {
+         val cacheNoteList = getNoteList()
+         emit(cacheNoteList)
 
-    }.catch { e ->
-        e.printStackTrace()
-    }*/
+     }.catch { e ->
+         e.printStackTrace()
+     }*/
 
     fun insertNote(note: Note): Flow<Boolean> = flow {
         noteDao.insertNote(note.toNoteEntity())
@@ -39,7 +39,7 @@ class NoteRepository(private val noteDao: NoteDao) {
     }*/
 
     fun getNotes(query: String): Flow<List<Note>> = flow {
-        var cacheNoteList = getNoteList() + noteDao.getNotes(query).map{it.toNote()}
+        var cacheNoteList = getNoteList() + noteDao.getNotes(query).map { it.toNote() }
         emit(cacheNoteList)
     }.catch { e ->
         e.printStackTrace()
@@ -53,4 +53,11 @@ class NoteRepository(private val noteDao: NoteDao) {
         e.printStackTrace()
     }
 
+    fun updatenote(note: Note): Flow<Boolean> = flow {
+        noteDao.updateNote(note.toNoteEntity())
+
+        emit(true)
+    }.catch { e ->
+        e.printStackTrace()
+    }
 }

@@ -17,10 +17,9 @@ import javax.inject.Inject
 class NoteDetailViewModel
 @Inject
 constructor(
-private val noteRepository: NoteRepository,
-savedStateHandle: SavedStateHandle
-) : ViewModel()
-{
+    private val noteRepository: NoteRepository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
 
     private var _selectedColor = MutableStateFlow(R.color.app_bg_color)
     val selectedColor: StateFlow<Int> = _selectedColor
@@ -45,38 +44,49 @@ savedStateHandle: SavedStateHandle
         }.launchIn(viewModelScope)
     }
 
-    fun updateNoteColor(newSelectedColor: Int){
+    fun updateNoteColor(newSelectedColor: Int) {
         _selectedColor.value = newSelectedColor
     }
 
-    fun savedNoteChanges(title: String, content: String){
-       if (_note.value == null){
-           saveNewNote(title,content)
-       }else{
-           updateNote(title,content)
-       }
+    fun savedNoteChanges(title: String, content: String) {
+        if (_note.value == null) {
+            saveNewNote(title, content)
+        } else {
+            updateNote(title, content)
+        }
     }
 
     private fun updateNote(title: String, content: String) {
-            TODO("Not yet implemented")
+        val noteModified = _note.value!!.copy(
+            title = title,
+            content = content,
+            color = _selectedColor.value,
+            updated = System.currentTimeMillis()
+        )
+
+        noteRepository.updatenote(noteModified).onEach {
+            _noteHasBeenModified.value = true
+        }.launchIn(viewModelScope)
+
     }
+
 
     private fun saveNewNote(title: String, content: String) {
 
-        if(title.isEmpty() && content.isEmpty()){
+        if (title.isEmpty() && content.isEmpty()) {
             _noteHasBeenModified.value = true
             return
 
         }
         val note = Note(
-            title= title,
+            title = title,
             content = content,
-            color =_selectedColor.value
+            color = _selectedColor.value
         )
 
-       noteRepository.insertNote(note).onEach {
-           _noteHasBeenModified.value = true
-       }.launchIn(viewModelScope)
-        }
-
+        noteRepository.insertNote(note).onEach {
+            _noteHasBeenModified.value = true
+        }.launchIn(viewModelScope)
     }
+
+}

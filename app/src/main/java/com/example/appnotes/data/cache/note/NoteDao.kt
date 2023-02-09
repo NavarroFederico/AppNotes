@@ -1,11 +1,6 @@
 package com.example.appnotes.data.cache.note
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.DeleteTable
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface NoteDao {
@@ -24,4 +19,6 @@ interface NoteDao {
     @Query("delete from notes  ")
     suspend fun deleteTable()
 
+    @Update
+    suspend fun updateNote(note: NoteEntity)
 }
