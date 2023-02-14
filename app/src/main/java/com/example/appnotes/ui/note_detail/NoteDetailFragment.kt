@@ -24,7 +24,7 @@ class NoteDetailFragment : Fragment() {
     private var _binding: FragmentNoteDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: NoteDetailViewModel by navGraphViewModels(R.id.note_detail_graph){defaultViewModelProviderFactory}
+    private val viewModel: NoteDetailViewModel by navGraphViewModels(R.id.note_detail_graph) { defaultViewModelProviderFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +39,9 @@ class NoteDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.editTextNoteContent.showKeyboard()
-        binding.imageViewNoteColor.setOnClickListener{
-            val action= NoteDetailFragmentDirections.actionNoteDetailFragmentToBottomSheetColorSelectorFragment()
+        binding.imageViewNoteColor.setOnClickListener {
+            val action =
+                NoteDetailFragmentDirections.actionNoteDetailFragmentToBottomSheetColorSelectorFragment()
             findNavController().navigate(action)
         }
         binding.imageViewArrowBack.setOnClickListener {
@@ -49,7 +50,7 @@ class NoteDetailFragment : Fragment() {
         //Funcion si hace el gesto hacia atras se guarde la nota
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
-            object :OnBackPressedCallback(true){
+            object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     saveNote()
                 }
@@ -57,10 +58,10 @@ class NoteDetailFragment : Fragment() {
             }
         )
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.selectedColor.collect{ selectedColor ->
+            viewModel.selectedColor.collect { selectedColor ->
                 binding.noteContainer.setBackgroundColor(
                     ContextCompat.getColor(
-                       requireContext(),selectedColor
+                        requireContext(), selectedColor
 
                     )
                 )
@@ -68,27 +69,27 @@ class NoteDetailFragment : Fragment() {
         }
         //detecta si la nota es modificada navega hacia atras
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.noteHasBeenModified.collect{ noteHasBeenModified->
-                if (noteHasBeenModified){
+            viewModel.noteHasBeenModified.collect { noteHasBeenModified ->
+                if (noteHasBeenModified) {
                     findNavController().popBackStack()
                 }
-        } }
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.note.collect{
-                it?.let{
-                    note->
+            viewModel.note.collect {
+                it?.let { note ->
                     binding.editTextNoteTitle.setText(note.title)
-                    binding.editTextNoteContent.append( "${note.content} ")
+                    binding.editTextNoteContent.append("${note.content} ")
                     viewModel.updateNoteColor(note.color)
                     binding.imageViewDeleteNote.isVisible = true
 
                     val updatedAt = Date(note.updated)
 
-                    val dateFormat: SimpleDateFormat = if(DateUtils.isToday(updatedAt.time)){
+                    val dateFormat: SimpleDateFormat = if (DateUtils.isToday(updatedAt.time)) {
                         SimpleDateFormat("hh:mm a", Locale.ROOT)
 
-                    }else{
+                    } else {
                         SimpleDateFormat("dd/MM/y ", Locale.ROOT)
 
                     }
@@ -97,6 +98,11 @@ class NoteDetailFragment : Fragment() {
             }
 
         }
+
+        binding.imageViewDeleteNote.setOnClickListener {
+            viewModel.deleteNote()
+        }
+
     }
 
     override fun onDestroyView() {
@@ -104,9 +110,9 @@ class NoteDetailFragment : Fragment() {
         _binding = null
     }
 
-    fun saveNote(){
+    fun saveNote() {
         viewModel.savedNoteChanges(
-            title = binding.editTextNoteTitle.text.toString()   ,
+            title = binding.editTextNoteTitle.text.toString(),
             content = binding.editTextNoteContent.text.toString()
         )
     }

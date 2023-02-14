@@ -3,6 +3,7 @@ package com.example.appnotes.ui.note_detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.appnotes.data.repositories.NoteRepository
 import com.example.appnotes.domain.model.Note
 import com.example.apppositive.R
@@ -69,6 +70,15 @@ constructor(
         }.launchIn(viewModelScope)
 
     }
+
+    fun deleteNote(){
+        _note.value?.id?.let { noteId->
+            noteRepository.deleteNote(noteId).onEach {
+                _noteHasBeenModified.value = true
+            }.launchIn(viewModelScope)
+            }
+
+        }
 
 
     private fun saveNewNote(title: String, content: String) {
