@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -11,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appnotes.ui.utils.changeStatusBarColor
+import com.example.appnotes.ui.utils.hideKeyboard
 import com.example.apppositive.R
 import com.example.apppositive.databinding.FragmentNoteListBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,26 +50,59 @@ class NoteListFragment : Fragment() {
         }
         //llama a la lista de notas y reacciona a sus cambios
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.noteList.collect {
-                noteList->
+            viewModel.noteList.collect { noteList ->
                 noteListAdapter.submitList(noteList)
             }
         }
         noteListAdapter.setOnItemClicklistener { noteId ->
-            val action = NoteListFragmentDirections.actionNoteListFragmentToNoteDetailFragment(noteId)
+            val action =
+                NoteListFragmentDirections.actionNoteListFragmentToNoteDetailFragment(noteId)
             findNavController().navigate(action)
         }
-    }
-    override fun onResume() {
-        super.onResume()
-        requireActivity().window.changeStatusBarColor(R.color.app_bg_color)
-        viewModel.getNotes()
-      //  viewModel.getNotesCache()
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            //Nos permite hacer la busqueda cuando el usuario aprete el boton aceptar en el teclado
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return if (query != null) {
+                    searchDatabase(query)
+                    binding.searchView.hideKeyboard()
+                    true
+                } else {
+                    false
+                }
+            }
+
+            //onQueryTextChange a medida que vaya modificando el texto de la busqueda.
+            override fun onQueryTextChange(query: String?): Boolean {
+                return if (query != null) {
+                    searchDatabase(query)
+                    true
+                } else {
+                    false
+                }
+            }
+        })
 
     }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+
+    private fun searchDatabase(query: String) {
+        viewModel.updateQuery(query)
     }
+
+
+
+override fun onResume() {
+    super.onResume()
+    requireActivity().window.changeStatusBarColor(R.color.app_bg_color)
+    viewModel.getNotes()
+    //  viewModel.getNotesCache()
+
+}
+
+override fun onDestroyView() {
+    super.onDestroyView()
+    _binding = null
+}
 
 }

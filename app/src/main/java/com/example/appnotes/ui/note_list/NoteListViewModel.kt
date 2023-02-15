@@ -22,26 +22,19 @@ constructor(
 
     private var _searchQuery = MutableStateFlow("")
     init {
-     /*  getNotesCache()
-      getNotesDb()
-*/
         getNotes()
     }
 
-    /*fun getNotesCache() {
-        noteRepository.getNotesPorDefecto().onEach { noteList ->
-            _noteList.value = noteList
-        }.launchIn(viewModelScope)
-    }*/
-   /* fun getNotesDb(){
-        noteRepository.getNotesDB(_searchQuery.value).onEach { noteList ->
-            _noteList.value = noteList
-        }.launchIn(viewModelScope)
-    }*/
+
     fun getNotes(){
         noteRepository.getNotes(_searchQuery.value).onEach { noteList ->
-            _noteList.value = noteList + noteList
+            _noteList.value = noteList
         }.launchIn(viewModelScope)
+    }
+
+    fun updateQuery(newQuery: String){
+        _searchQuery.value = newQuery
+        getNotes()
     }
 }
 
