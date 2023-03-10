@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.appnotes.ui.utils.changeStatusBarColor
 import com.example.appnotes.ui.utils.hideKeyboard
 import com.example.apppositive.R
@@ -43,6 +45,7 @@ class NoteListFragment : Fragment() {
 
         binding.imageViewDarkMode.setOnClickListener { viewModel.toggleDarkMode() }
 
+        binding.imageViewLayoutList.setOnClickListener { viewModel.toggleLayoutMode() }
         binding.recyclerViewNotes.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = noteListAdapter
@@ -99,6 +102,23 @@ class NoteListFragment : Fragment() {
                 }
             }
         }
+
+        //observa el estado si esta en linear o en grid
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.linearLayoutMode.collect{ isLinearLayout ->
+                if(isLinearLayout){
+                    binding.imageViewLayoutList.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_grid)
+                    )
+                    binding.recyclerViewNotes.layoutManager = LinearLayoutManager(requireContext())
+                }else{
+                    binding.imageViewLayoutList.setImageDrawable(
+                        ContextCompat.getDrawable(requireContext(), R.drawable.ic_list)
+                    )
+                    binding.recyclerViewNotes.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                }
+
+            }        }
     }
 
     private fun searchDatabase(query: String) {

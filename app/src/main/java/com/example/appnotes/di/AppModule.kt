@@ -6,6 +6,7 @@ import com.example.appnotes.data.cache.AppDatabase
 import com.example.appnotes.data.cache.AppDatabase.Companion.DATABASE_NAME
 import com.example.appnotes.data.cache.note.NoteDao
 import com.example.appnotes.data.repositories.NoteRepository
+import com.example.appnotes.data.repositories.SettingsRepository
 import com.example.appnotes.ui.note_detail.ColorSelectorAdapter
 import com.example.appnotes.ui.note_list.NoteListAdapter
 import com.example.apppositive.R
@@ -13,6 +14,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.internal.aggregatedroot.codegen._com_example_appnotes_di_NoteApplication
 import javax.inject.Singleton
 
 @Module
@@ -59,6 +61,16 @@ object AppModule {
     @Provides
     @Singleton
     fun provideNoteRepository(noteDao: NoteDao) = NoteRepository(noteDao)
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(
+        application: Application
+    ): SettingsRepository {
+        return SettingsRepository(application)
+
+
+    }
 
 
 }
