@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -39,6 +40,9 @@ class NoteListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        binding.imageViewDarkMode.setOnClickListener { viewModel.toggleDarkMode() }
+
         binding.recyclerViewNotes.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = noteListAdapter
@@ -48,12 +52,7 @@ class NoteListFragment : Fragment() {
             findNavController().navigate(action)
 
         }
-        //llama a la lista de notas y reacciona a sus cambios
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.noteList.collect { noteList ->
-                noteListAdapter.submitList(noteList)
-            }
-        }
+
         noteListAdapter.setOnItemClicklistener { noteId ->
             val action =
                 NoteListFragmentDirections.actionNoteListFragmentToNoteDetailFragment(noteId)
@@ -83,7 +82,23 @@ class NoteListFragment : Fragment() {
                 }
             }
         })
-
+        //llama a la lista de notas y reacciona a sus cambios
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.noteList.collect { noteList ->
+                noteListAdapter.submitList(noteList)
+            }
+        }
+        //observa el estado de nuestra variable darkMode
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.darkMode.collect{
+                isDarkMode ->
+                if(isDarkMode){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }else{
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+            }
+        }
     }
 
     private fun searchDatabase(query: String) {
